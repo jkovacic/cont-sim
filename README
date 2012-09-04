@@ -1,0 +1,81 @@
+A very simple MATLAB/GNU Octave "toolbox" for numerical continuous simulation.
+The library was developed in GNU Octave, however every effort was made to
+preserve compatibility with MATLAB.
+
+The packet includes the two most common integration methods: the Euler method 
+(implemented in integ_euler.m) and the 4th order Runge-Kutta method (implemented
+in integ_rk4.m). More numerical methods may be included in the future.
+
+Additionally an example mathematical model of a pendulum on a movable support (defined at
+http://en.wikipedia.org/wiki/Lagrangian_mechanics#Pendulum_on_a_movable_support)
+is included, it is implemented in model_movable_output.m and output_movable_pendulum.m.
+
+For more information, see instructions at the bottom of this file, the demo script main.m
+and comments in individual files.
+
+The library is licenced under the Apache 2.0 license. See LICENSE.txt and
+http://www.apache.org/licenses/LICENSE-2.0
+for more details.
+
+The author of the library is Jernej Kovacic (jkovacic AT gmail DOT com). 
+
+
+
+=========================================================================
+
+Basic instructions
+
+The integration functions are designed to be independent of a model. In other words,
+as long as the model's interface function conform to the standard (specified below),
+there is no need to modify these functions.
+
+Each model consits of two functions that are called by the integration function, depending on
+the integration algorithm:
+- Internal model in the state space representation. Typically a model is a set of one or more
+  ordinary differential equations. Each state's highest order derivative must be expressed as
+  an explicit function of other states, their lower order derivatives and other function's input
+  variables. An example of the function is implemented in model_movable_pendulum.m.
+- Desired output of the model, typically a function of internal states and/or other input 
+  variables. An example of the function is implemented in output_movable_pendulum.m.
+  
+For smoother integration with integration functions it is recommended that both model's function
+interfaces conform to the following "standard". If any variables are not needed, they can be
+ignored. Note that functions' names can be arbitrary.
+- State - space representation of the model:
+  function sp = model_state_space(s, t, param)
+  Input:
+  - s : vector of states' values
+  - t : time point within a simulation run (may be ignored)
+  - param : model's parameters, e.g. dimensions, settings of controllers, etc. (may be ignored)
+  Output:
+  - sp : vector of derivatives of states with respect of time (ds/dt)
+- Output values of the model:
+  function out = model_output(s, t, param)
+  Input:
+  - s : vector of states' values
+  - t : time point within a simulation run (may be ignored)
+  - param : model's parameters, e.g. dimensions, settings of controllers, etc. (may be ignored)
+  Output:
+  - out : vector of desired outputs at time t. Note that time stamps are usually not included
+  
+Although model's parameters (such as physical dimensions, controllers' settings, etc.) can be
+hardcoded into the model's functions, this is generally not the best idea. If these values are
+passed as params, it is easier to perform parametrization (study the model's responses
+depending  on certain values of parameters), optimization (finding the parameters giving
+the best output), etc.
+ 
+A simulation cycle is started by running an integration function. Since integration functions
+can be used as building blocks at higher level functionalities (e.g. optimization), it is
+recommended that the functions' interfaces also conform to a common standard as specified below.
+Note that the function's name can be arbitrary:
+function output = integ_algorithm(model, initial_condition, t_start, t_stop, t_step, outputf, param)
+Input:
+  model : name of a function that implements the mathematical model as a state-space representation
+  initial_condition : states' values at t = t_start
+  t_start : start time of the simulation run
+  t_stop : stop time of the simulation run
+  t_step : fixed (or initial for algorithms with adaptive t_step) time step
+  outputf : name of the function that calculates the desired output values from the internal states
+  param : vector of parameter values, passed to 'model' and 'outputf'
+Output:
+  output : vector of output values (as defined by 'outputf'), prepended by time stamps
