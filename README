@@ -70,12 +70,12 @@ recommended that the functions' interfaces also conform to a common standard as 
 Note that the function's name can be arbitrary:
 function output = integ_algorithm(model, initial_condition, t_start, t_stop, t_step, outputf, param)
 Input:
-  model : name of a function that implements the mathematical model as a state-space representation
-  initial_condition : states' values at t = t_start
-  t_start : start time of the simulation run
-  t_stop : stop time of the simulation run
-  t_step : fixed (or initial for algorithms with adaptive t_step) time step
-  outputf : name of the function that calculates the desired output values from the internal states
-  param : vector of parameter values, passed to 'model' and 'outputf'
+- model : name of a function that implements the mathematical model as a state-space representation
+- initial_condition : states' values at t = t_start
+- t_start : start time of the simulation run
+- t_stop : stop time of the simulation run
+- t_step : fixed (or initial for algorithms with adaptive t_step) time step
+- outputf : name of the function that calculates the desired output values from the internal states
+- param : vector of parameter values, passed to 'model' and 'outputf'
 Output:
-  output : vector of output values (as defined by 'outputf'), prepended by time stamps
+- output : vector of output values (as defined by 'outputf'), prepended by time stamps
