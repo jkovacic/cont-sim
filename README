@@ -10,8 +10,8 @@ Additionally an example mathematical model of a pendulum on a movable support (d
 http://en.wikipedia.org/wiki/Lagrangian_mechanics#Pendulum_on_a_movable_support)
 is included, it is implemented in model_movable_output.m and output_movable_pendulum.m.
 
-For more information, see instructions in the wiki, the demo script main.m
-and comments in individual files.
+For more information, see the project's wiki (https://github.com/jkovacic/cont-sim/wiki), 
+the demo script main.m and comments in individual files.
 
 The library is licenced under the Apache 2.0 license. See LICENSE.txt and
 http://www.apache.org/licenses/LICENSE-2.0
