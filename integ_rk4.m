@@ -1,6 +1,6 @@
 % Solve a set of ordinary differential equations using the most common
 % numerical method, i.e. the 4th order Runge - Kutta method. The method is described at:
-% http://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods#Common_fourth-order_Runge.E2.80.93Kutta_methods
+% http://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods#Common_fourth-order_Runge.E2.80.93Kutta_method
 %
 % Function's input and output paramaeters should conform to the general integ
 % "interface" as described in README.
