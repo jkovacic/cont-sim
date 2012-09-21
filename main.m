@@ -29,10 +29,10 @@ s0 = [0.3, 0, 30*pi/180, 0]';
 % Uncomment the desired one:
 
 %integ_method = "integ_euler";    % Euler method
-%integ_method = "integ_ab2step";  % 2 step Adams - Bashforth method
-%integ_method = "integ_ab3step";  % 3 step Adams - Bashforth method
-%integ_method = "integ_ab4step";  % 4 step Adams - Bashforth method
-%integ_method = "integ_ab5step";  % 5 step Adams - Bashforth method
+%integ_method = "integ_ab2";      % 2-step Adams - Bashforth method
+%integ_method = "integ_ab3";      % 3-step Adams - Bashforth method
+%integ_method = "integ_ab4";      % 4-step Adams - Bashforth method
+%integ_method = "integ_ab5";      % 5-step Adams - Bashforth method
 integ_method = "integ_rk4";      % 4th order Runge - Kutta method
 
 % Run a simulation cycle t = 0 to 10 s, step = 0.01 s: 

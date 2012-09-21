@@ -1,5 +1,5 @@
 % Solve a set of ordinary differential equations using the
-% 4 step Adams - Bashforth method. The method is described at:
+% 5 step Adams - Bashforth method. The method is described at:
 % http://en.wikipedia.org/wiki/Linear_multistep_method#Adams.E2.80.93Bashforth_methods
 %
 % As the method is not self starting, the first points are calculated by the 
@@ -21,7 +21,7 @@
 %   output - vector of output values (as defined by 'outputf'), prepended by time stamps
 
 
-function output = integ_ab4step(model, initial_condition, t_start, t_stop, t_step, outputf, param)
+function output = integ_ab5(model, initial_condition, t_start, t_stop, t_step, outputf, param)
 
 
 % Check some simulation parameters
@@ -34,7 +34,7 @@ check_sim_params(t_start, t_stop, t_step);
 % This design allows easier reusability in other non selfstarting methods.
 
 % number of initial points to be calculated using a self starting method:
-N = 4;
+N = 5;
 
 % The first set of output values at t = t_start:
 initval = feval(outputf, initial_condition, t_start, param);
@@ -49,11 +49,13 @@ if (upper > (t_stop-t_step) )
     upper = t_stop-t_step;
 end %if
 
+sd3 = 0;
 sd2 = 0;
 sd1 = 0;
 
 for  t = t_start : t_step : upper
     % used by the Adams - Bashforth method as "previous" points:
+    sd4 = sd3;
     sd3 = sd2;
     sd2 = sd1;
     sd1 = feval(model, s, t, param);
@@ -74,8 +76,9 @@ end %for
 
 for t = upper+t_step : t_step : t_stop-t_step,
     sd = feval(model, s, t, param);
-    s = s + t_step * (55*sd - 59*sd1 + 37*sd2 - 9*sd3) / 24;
+    s = s + t_step * (1901*sd - 2774*sd1 + 2616*sd2 - 1274*sd3 + 251*sd4) / 720;
 
+    sd4 = sd3;
     sd3 = sd2;
     sd2 = sd1;
     sd1 = sd;
@@ -87,4 +90,5 @@ for t = upper+t_step : t_step : t_stop-t_step,
     
 end % for
 
-end % function 
+end % function
+ 
