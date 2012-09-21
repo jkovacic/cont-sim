@@ -2,9 +2,9 @@ A very simple MATLAB/GNU Octave "toolbox" for numerical continuous simulation.
 The library was developed in GNU Octave, however every effort was made to
 preserve compatibility with MATLAB.
 
-The packet includes the two most common integration methods: the Euler method 
-(implemented in integ_euler.m) and the 4th order Runge-Kutta method (implemented
-in integ_rk4.m). More numerical methods may be included in the future.
+Several integration numerical methods are included. For the complete list, see the wiki:
+https://github.com/jkovacic/cont-sim/wiki/Implemented-methods
+More numerical methods may be included in the future.
 
 Additionally an example mathematical model of a pendulum on a movable support (defined at
 http://en.wikipedia.org/wiki/Lagrangian_mechanics#Pendulum_on_a_movable_support)
