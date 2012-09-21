@@ -3,7 +3,7 @@
 % http://en.wikipedia.org/wiki/Euler_method
 %
 % Function's input and output paramaeters should conform to the general integ
-% "interface" as described in README.
+% "interface" as described at https://github.com/jkovacic/cont-sim/wiki/Basic-instructions.
 %
 % Input:
 %   model - name of a function that implements the mathematical model as a state-space representation
@@ -30,8 +30,8 @@ output = [t_start; initval];
 
 s = initial_condition;
 for t = t_start : t_step : t_stop-t_step,
-    sp = feval(model, s, t, param);
-    s = s + sp * t_step;
+    sd = feval(model, s, t, param);
+    s = s + sd * t_step;
     
     % Past this point, s represents states at the next point in time, i.e. at t+t_step.
     % This should be kept in mind when calcualating output values and applyng their time stamp.

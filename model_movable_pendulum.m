@@ -2,7 +2,8 @@
 % http://en.wikipedia.org/wiki/Lagrangian_mechanics#Pendulum_on_a_movable_support
 %
 % The function will typically be executed by differential equation solving functions,
-% so its parameters must conform to the model "interface" as described in README.
+% so its parameters must conform to the model "interface" as described at
+% https://github.com/jkovacic/cont-sim/wiki/Basic-instructions.
 %
 % Input:
 %   s - vector of values of states at the specified moment in time
@@ -10,7 +11,7 @@
 %   param - values of model parameters
 %
 % Output:
-%   sp - vector of derivatives of states with respect of time at the time = t
+%   sd - vector of derivatives of states with respect of time at the time = t
 %
 % Instead of being hardcoded in this file, the model's parameters (dimensions) are passed
 % in param, allowing to test responses of the model using different parameter values.
@@ -23,12 +24,12 @@
 %
 % The model's states have the following meanings:
 % s(1) = x [m]          - horizontal position of the pendulum support 
-% s(2) = xp [m/s]       - dx/dt, horizontal speed of the pendulum support
+% s(2) = xd [m/s]       - dx/dt, horizontal speed of the pendulum support
 % s(3) = theta [rad]    - inclination of the pendulum (relative to the vertical line)
-% s(4) = thetap [rad/s] - dtheta/dt, rotational speed of the pendulum
+% s(4) = thetad [rad/s] - dtheta/dt, rotational speed of the pendulum
 
 
-function sp = model_movable_pendulum(s, t, param)
+function sd = model_movable_pendulum(s, t, param)
 
 
 % Required number of states to check the correctness of given 's':
@@ -54,35 +55,35 @@ g = param(4);
 
 % For exactly the same reasons, values of states are assigned to variables with meaningful names: 
 x = s(1);        % [m]     - horizontal position of the pendulum support 
-xp = s(2);       % [m/s]   - dx/dt, horizontal speed of the pendulum support
+xd = s(2);       % [m/s]   - dx/dt, horizontal speed of the pendulum support
 theta = s(3);    % [rad]   - inclination of the pendulum (relative to the vertical line)
-thetap = s(4);   % [rad/s] - dtheta/dt, rotational speed of the pendulum
+thetad = s(4);   % [rad/s] - dtheta/dt, rotational speed of the pendulum
 
 
 % The derived model is a set of two ordinary differential equations:
 %
-% (M+m)*xpp + m*l*cos(theta)*thetapp - m*l*sin(theta)*thetap^2 = 0
-% thetapp + xpp*cos(theta)/l + g*sin(theta)/l = 0                      (1)
+% (M+m)*xdd + m*l*cos(theta)*thetadd - m*l*sin(theta)*thetad^2 = 0
+% thetadd + xdd*cos(theta)/l + g*sin(theta)/l = 0                      (1)
 %
-% The highest order derivatives of both states (xpp and thetapp) must be expressed
-% as axplicite functions of the lower level derivatives, inputs, time, params, etc.
+% The highest order derivatives of both states (xdd and thetadd) must be expressed
+% as explicite functions of the lower level derivatives, inputs, time, params, etc.
 %
-% From the first equation, xpp can be derived as:
-% xpp = m*l*(thetap^2*sin(theta)-thetapp*cos(theta))/(m+M)             (2)
+% From the first equation, xdd can be derived as:
+% xdd = m*l*(thetad^2*sin(theta)-thetadd*cos(theta))/(m+M)             (2)
 %
 % and put into the the second equation which turns into:
-% thetapp + m*(thetap^2*sin(theta)*cos(theta)-thetapp*cos^2(theta))/(m+M) +g*sin(theta)/l = 0       (3)
+% thetadd + m*(thetad^2*sin(theta)*cos(theta)-thetadd*cos^2(theta))/(m+M) +g*sin(theta)/l = 0       (3)
 %
-% thetapp can be derived from it as:
-% thetapp = (-sin(theta)*(m*thetap^2*cos(theta)/(m+M))+g/l)/(1-m*cos^2(theta)/(m+M))                (4)
+% thetadd can be derived from it as:
+% thetadd = (-sin(theta)*(m*thetad^2*cos(theta)/(m+M))+g/l)/(1-m*cos^2(theta)/(m+M))                (4)
 %
-% Put the thetapp into (2) and xpp can be expressed as:
-% xpp = (m*l/(m+M))*(thetap^2*sin(theta)+(sin(theta)*cos(theta)*(m*thetap^2*cos(theta)/(m+M))+g/l)/ \\
+% Put the thetadd into (2) and xdd can be expressed as:
+% xdd = (m*l/(m+M))*(thetad^2*sin(theta)+(sin(theta)*cos(theta)*(m*thetad^2*cos(theta)/(m+M))+g/l)/ \\
 %   (1-m*cos^2(theta)/(m+M)))                                                                       (5)
 %
-% The equations (4) and (5) can be used to calculate sp.
-% Note that (1-m*cos^2(theta)/(m+M)) can never limit to zero unless M is negligible towards m.
-% As this is unlikely in typical situations, the division by zero is very inprobable
+% The equations (4) and (5) can be used to calculate sd.
+% Note that (1-m*cos^2(theta)/(m+M)) can never limit to zero unless M is negligible comparing to m.
+% As this is unlikely in typical situations, the division by zero is very unlikely
 % and will not be handled separately
 
 
@@ -96,14 +97,14 @@ mrel = m/(m+M);
 gl = g/l;
 
 % Finally calculate numerical values of both second order derivatives as derived above:
-xpp = mrel*l*(thetap*thetap*sth + (sth*cth*(mrel*thetap*thetap*cth+gl)) / (1-mrel*cth*cth));
-thetapp = -sth*(mrel*thetap*thetap*cth+gl)/(1-mrel*cth*cth);
+xdd = mrel*l*(thetad*thetad*sth + (sth*cth*(mrel*thetad*thetad*cth+gl)) / (1-mrel*cth*cth));
+thetadd = -sth*(mrel*thetad*thetad*cth+gl)/(1-mrel*cth*cth);
 
 % And appropriately fill the output vector of derivatives:
-sp = s;    % to preserve the dimensions and avoid errors due to addition of incompatible vectors/matrices
-sp(1) = xp;
-sp(2) = xpp;
-sp(3) = thetap;
-sp(4) = thetapp;
+sd = s;    % to preserve the dimensions and avoid errors due to addition of incompatible vectors/matrices
+sd(1) = xd;
+sd(2) = xdd;
+sd(3) = thetad;
+sd(4) = thetadd;
 
 end %function

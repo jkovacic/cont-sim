@@ -3,7 +3,8 @@
 % http://en.wikipedia.org/wiki/Lagrangian_mechanics#Pendulum_on_a_movable_support
 % 
 % The function will typically be executed by differential equation solving functions,
-% so its parameters must conform to the model "interface" as described in README.
+% so its parameters must conform to the model "interface" as described at
+% https://github.com/jkovacic/cont-sim/wiki/Basic-instructions.
 %
 % Input:
 %   s - vector of values of states at the specified moment in time
@@ -19,9 +20,9 @@
 %
 % The model's states have the following meanings:
 % s(1) = x [m]          - horizontal position of the pendulum support 
-% s(2) = xp [m/s]       - dx/dt, horizontal speed of the pendulum support
+% s(2) = xd [m/s]       - dx/dt, horizontal speed of the pendulum support
 % s(3) = theta [rad]    - inclination of the pendulum (relative to the vertical line)
-% s(4) = thetap [rad/s] - dtheta/dt, rotational speed of the pendulum
+% s(4) = thetad [rad/s] - dtheta/dt, rotational speed of the pendulum
 
 function out = output_movable_pendulum(s, t, param)
 
@@ -32,9 +33,9 @@ function out = output_movable_pendulum(s, t, param)
 %
 % The output is derived from the following vector of states s:
 % s(1) = x [m]          - position of pendulum base
-% s(2) = xp [m/s]       - dx/dt, speed of the pendulum's base
+% s(2) = xd [m/s]       - dx/dt, speed of the pendulum's base
 % s(3) = theta [rad]    - pendulum angle
-% s(4) = thetap [rad/s] - dtheta/dt, rotational speed of the pendulum
+% s(4) = thetad [rad/s] - dtheta/dt, rotational speed of the pendulum
 
 
 N_STATES = 4;
