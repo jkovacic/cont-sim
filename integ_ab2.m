@@ -2,7 +2,7 @@
 % 2 step Adams - Bashforth method. The method is described at:
 % http://en.wikipedia.org/wiki/Linear_multistep_method#Adams.E2.80.93Bashforth_methods
 %
-% As the method is not sel starting, the firs points are calculated by the 
+% As the method is not sel starting, the first points are calculated by the 
 % 4th order Runge - Kutta method.
 %
 % Function's input and output paramaeters should conform to the general integ
