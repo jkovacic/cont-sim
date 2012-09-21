@@ -4,9 +4,9 @@
 
 % Vector of model's internal states (must be a 4x1 vector):
 % s(1) = x [m]          - position of pendulum base
-% s(2) = xp [m/s]       - dx/dt, speed of the pendulum's base
+% s(2) = xd [m/s]       - dx/dt, speed of the pendulum's base
 % s(3) = theta [rad]    - pendulum angle
-% s(4) = thetap [rad/s] - dtheta/dt, rotational speed of the pendulum
+% s(4) = thetad [rad/s] - dtheta/dt, rotational speed of the pendulum
 
 % Vector of desired outputs (a 2x1 vector):
 % out(1) = x [cm]
@@ -25,10 +25,14 @@ param = [1, 0.5, 0.5, 9.8067];
 s0 = [0.3, 0, 30*pi/180, 0]';
 
 
-% Currently, two ODE solving methods are implemented.
+% Several ODE solving methods are implemented.
 % Uncomment the desired one:
 
 %integ_method = "integ_euler";    % Euler method
+%integ_method = "integ_ab2step";  % 2 step Adams - Bashforth method
+%integ_method = "integ_ab3step";  % 3 step Adams - Bashforth method
+%integ_method = "integ_ab4step";  % 4 step Adams - Bashforth method
+%integ_method = "integ_ab5step";  % 5 step Adams - Bashforth method
 integ_method = "integ_rk4";      % 4th order Runge - Kutta method
 
 % Run a simulation cycle t = 0 to 10 s, step = 0.01 s: 
