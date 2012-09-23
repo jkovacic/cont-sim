@@ -1,8 +1,10 @@
 % Solve a set of ordinary differential equations using the
-% 2-step Adams - Bashforth method. The method is described at:
+% 3-step Adams - Bashforth - Moulton predictor - corrector method. The method is described at:
 % http://en.wikipedia.org/wiki/Linear_multistep_method#Adams.E2.80.93Bashforth_methods
+% and
+% http://en.wikipedia.org/wiki/Linear_multistep_method#Adams.E2.80.93Moulton_methods
 %
-% As the method is not sel starting, the first points are calculated by the 
+% As the method is not self starting, the first points are calculated by the 
 % 4th order Runge - Kutta method.
 %
 % Function's input and output paramaeters should conform to the general integ
@@ -21,7 +23,7 @@
 %   output - vector of output values (as defined by 'outputf'), prepended by time stamps
 
 
-function output = integ_ab2(model, initial_condition, t_start, t_stop, t_step, outputf, param)
+function output = integ_abm3(model, initial_condition, t_start, t_stop, t_step, outputf, param)
 
 
 % Check some simulation parameters
@@ -34,7 +36,7 @@ check_sim_params(t_start, t_stop, t_step);
 % This design allows easier reusability in other non selfstarting methods.
 
 % number of initial points to be calculated using a self starting method:
-N = 2;
+N = 3;
 
 % The first set of output values at t = t_start:
 initval = feval(outputf, initial_condition, t_start, param);
@@ -49,8 +51,11 @@ if (upper > (t_stop-t_step) )
     upper = t_stop-t_step;
 end %if
 
+sd1 = 0;
+
 for  t = t_start : t_step : upper
-    % used by the Adams - Bashforth method as a "previous" point:
+    % used by the Adams - Bashforth method as "previous" points:
+    sd2 = sd1;
     sd1 = feval(model, s, t, param);
     
     k1 = sd1 * t_step;
@@ -65,11 +70,19 @@ for  t = t_start : t_step : upper
 end %for
 
 
-% Now the Adams - Bashforth method can start
+% Now the Adams - Bashforth - Moulton method can start
 
 for t = upper+t_step : t_step : t_stop-t_step,
+
+    % 3-step Adams - Bashforth method is used as a predictor:
     sd = feval(model, s, t, param);
-    s = s + 0.5*t_step* (3*sd - sd1);
+    p = s + t_step * (23*sd - 16*sd1 + 5*sd2) / 12;
+    
+    % and corrected by the 3-step Adams - Moulton method:
+    pd = feval(model, p, t+t_step, param);
+    s = s + t_step * (9*pd + 19*sd - 5*sd1 + sd2) / 24;
+
+    sd2 = sd1;
     sd1 = sd;
     
     % Past this point, s represents states at the next point in time, i.e. at t+t_step.
@@ -79,4 +92,5 @@ for t = upper+t_step : t_step : t_stop-t_step,
     
 end % for
 
-end % function
+end % function 
+ 
