@@ -37,6 +37,7 @@ s0 = [0.3, 0, 30*pi/180, 0]';
 %integ_method = "integ_abm2";  % 2-step Adams - Bashforth - Moulton predictor - corrector method
 %integ_method = "integ_abm3";  % 3-step Adams - Bashforth - Moulton predictor - corrector method
 %integ_method = "integ_abm4";  % 4-step Adams - Bashforth - Moulton predictor - corrector method
+%integ_method = "integ_abm5";  % 5-step Adams - Bashforth - Moulton predictor - corrector method
 integ_method = "integ_rk4";   % 4th order Runge - Kutta method
 
 % Run a simulation cycle t = 0 to 10 s, step = 0.01 s: 
