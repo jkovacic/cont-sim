@@ -4,7 +4,7 @@
 
 % The function is similar to integ_rk4.m. However, this implementation is suited to
 % multi step methods, for instance, it also maintains a buffer of the last N values
-% od model(sm, tn), etc.
+% of model(sm, tn), etc.
 
 % Input:
 %   model - name of a function that implements the mathematical model as a state-space representation
