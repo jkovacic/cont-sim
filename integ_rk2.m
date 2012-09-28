@@ -1,6 +1,7 @@
-% Solve a set of ordinary differential equations using the most common
-% numerical method, i.e. the 4th order Runge - Kutta method. The method is described at:
-% http://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods#Common_fourth-order_Runge.E2.80.93Kutta_method
+% Solve a set of ordinary differential equations using the 2nd order Runge - Kutta method
+% (alpha=1/2. a.k.a "the midpoint method")
+% The method is described at:
+% http://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods#Second-order_methods_with_two_stages
 %
 % Function's input and output paramaeters should conform to the general integ
 % "interface" as described at https://github.com/jkovacic/cont-sim/wiki/Basic-instructions.
@@ -17,14 +18,12 @@
 % Output:
 %   output - vector of output values (as defined by 'outputf'), prepended by time stamps
 
-function output = integ_rk4(model, initial_condition, t_start, t_stop, t_step, outputf, param)
+function output = integ_rk2(model, initial_condition, t_start, t_stop, t_step, outputf, param)
 
 % Elements of the Butcher tableau:
-A = [0, 0, 0, 0; 0.5, 0, 0, 0; 0, 0.5, 0, 0; 0, 0, 1, 0];
-B = [1, 2, 2, 1] / 6;
-C = [0, 0.5, 0.5, 1]';
+[A, B, C] = aux_rk2_butcher(0.5);
 
 % passed to the general implementation of explicit Runge - Kutta methods
 output = aux_rk_expl(model, initial_condition, t_start, t_stop, t_step, outputf, param, A, B, C);
 
-end % function 
+end % function  
