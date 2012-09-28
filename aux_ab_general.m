@@ -38,20 +38,20 @@ if ( N < 2 )
 end %if
 
 
-upper = t_start + (N-1)*t_step;
+upper_limit = t_start + (N-1)*t_step;
 
 % Make sure that not too many points will be calculated if t_step is too large
-if (upper > (t_stop-t_step) )
-    upper = t_stop-t_step;
+if (upper_limit > (t_stop-t_step) )
+    upper_limit = t_stop-t_step;
 end %if
 
 % The method is not self-starting, so the initial values must be calculated
 % using another method. The 4th order Runge - Kutta mehod is chosen.
-[output, s, H] = aux_rk4(model, initial_condition, t_start, upper, t_step, outputf, param, N);
+[output, s, H] = aux_rk4(model, initial_condition, t_start, upper_limit, t_step, outputf, param, N);
 
 % Now the Adams - Bashforth method can start
 
-for t = upper+t_step : t_step : t_stop-t_step,
+for t = upper_limit+t_step : t_step : t_stop-t_step,
     sd = feval(model, s, t, param);
     s = s + t_step * sd * ab_coefficients(1);
     for i = 2:N

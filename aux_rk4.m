@@ -10,7 +10,7 @@
 %   model - name of a function that implements the mathematical model as a state-space representation
 %   initial_condition - states at t = t_start
 %   t_start - start time of the simulation run
-%   upper - stop time of the simulation run
+%   upper_limit - stop time of the simulation run
 %   t_step - fixed time step
 %   outputf - name of the function that calculates the desired output values from the internal states
 %   param - vector parameter values, passed to 'model' and 'outputf'
@@ -21,7 +21,7 @@
 %   s - vector of states at the last point (at t = upper)
 %   H - buffer of values of model(sn, tn) for the last N points
 
-function [output, s, H] = aux_rk4(model, initial_condition, t_start, upper, t_step, outputf, param, N)
+function [output, s, H] = aux_rk4(model, initial_condition, t_start, upper_limit, t_step, outputf, param, N)
 
 [STATE_ROWS, STATE_COLS] = size(initial_condition);
 
@@ -36,7 +36,7 @@ output = [t_start; initval];
 s = initial_condition;
 
 
-for  t = t_start : t_step : upper
+for  t = t_start : t_step : upper_limit
     % used by multistep methods as a "previous" point:
     sd = feval(model, s, t, param);
     % It will be stored into H
