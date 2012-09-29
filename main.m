@@ -40,6 +40,8 @@ s0 = [0.3, 0, 30*pi/180, 0]';
 %integ_method = "integ_abm5";        % 5-step Adams - Bashforth - Moulton predictor - corrector method
 %integ_method = "integ_ms";          % Milne - Simpson predictor - corrector method
 %integ_method = "integ_ms_imp";      % improved Milne - Simpson predictor - corrector method
+%integ_method = "integ_hamming";     % Hamming's predictor - corrector method 
+%integ_method = "integ_hamming_imp"; % improved Hamming's predictor - corrector method 
 %integ_method = "integ_rk2";         % 2nd order Runge - Kutta method (alpha = 1/2, the midpoint method)
 %integ_method = "integ_heun2";       % 2nd order Heun method (i.e. 2nd order Runge - Kutta, where alpha=1)
 %integ_method = "integ_heun2_23";    % 2nd order Heun method (i.e. 2nd order Runge - Kutta, where alpha=2/3)
