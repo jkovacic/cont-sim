@@ -1,5 +1,5 @@
-% A convenience function the first N solutions of a set of ordinary differential equations,
-% typically used as a start of multi step methods (e.g. the Adams family).
+% A convenience function to calculate the first N solutions of a set of ordinary differential
+% equations, typically used as a start of multi step methods (e.g. the Adams family).
 % This function should not be called directly
 
 % The function is similar to integ_rk4.m. However, this implementation is suited to
@@ -18,23 +18,26 @@
 %
 % Output:
 %   output - vector of output values (as defined by 'outputf'), prepended by time stamps
-%   s - vector of states at the last point (at t = upper)
+%   S - The last N  states
 %   H - buffer of values of model(sn, tn) for the last N points
 
-function [output, s, H] = aux_rk4(model, initial_condition, t_start, upper_limit, t_step, outputf, param, N)
+function [output, S, H] = aux_rk4(model, initial_condition, t_start, upper_limit, t_step, outputf, param, N)
 
 [STATE_ROWS, STATE_COLS] = size(initial_condition);
 
 % A buffer to store previous N-1 values of model(sn, tn), 
 % required by the Adams - Bashforth method
 H = zeros(STATE_ROWS, (N-1) * STATE_COLS);
+S = zeros(STATE_ROWS, N * STATE_COLS);
+% Note that some multi step methods (e.g. Milne - Simpson method) required
+% history of states, which is packed into S
 
 % The first set of output values at t = t_start:
 initval = feval(outputf, initial_condition, t_start, param);
 output = [t_start; initval];
 
 s = initial_condition;
-
+S(:, 1:STATE_COLS) = s;
 
 for  t = t_start : t_step : upper_limit
     % used by multistep methods as a "previous" point:
@@ -43,6 +46,7 @@ for  t = t_start : t_step : upper_limit
     % First shift the matrix to the right,...
     if (N > 2)
         H = circshift(H, [0, STATE_COLS]);
+        S = circshift(S, [0, STATE_COLS]);
     end %if
     
     % and overwrite the left part of H with sd1: 
@@ -54,7 +58,8 @@ for  t = t_start : t_step : upper_limit
     k4 = feval(model, s+k3, t+t_step, param) * t_step;
 
     s = s + (k1 + 2*k2 + 2*k3 + k4) / 6;
-
+    S(:, 1:STATE_COLS) = s;
+    
     val = feval(outputf, s, t+t_step, param);
     output = [output, [t+t_step; val]];
 end %for

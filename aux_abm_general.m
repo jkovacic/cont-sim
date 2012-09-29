@@ -53,7 +53,8 @@ end %if
 
 % The method is not self-starting, so the initial values must be calculated
 % using another method. The 4th order Runge - Kutta mehod is chosen.
-[output, s, H] = aux_rk4(model, initial_condition, t_start, upper_limit, t_step, outputf, param, N);
+[output, S, H] = aux_rk4(model, initial_condition, t_start, upper_limit, t_step, outputf, param, N);
+s = S(:, 1:STATE_COLS);
 
 % Now the Adams - Bashforth method can start
 
