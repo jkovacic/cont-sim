@@ -50,7 +50,7 @@ end %if
 s = S(:, 1:STATE_COLS);
 
 % Start of the Nystroem's method
-%S
+
 for t = upper_limit+t_step : t_step : t_stop-t_step
 
     sd = feval(model, s, t, param);
