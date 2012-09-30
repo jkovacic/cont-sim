@@ -29,6 +29,7 @@ s0 = [0.3, 0, 30*pi/180, 0]';
 % Uncomment the desired one:
 
 %integ_method = "integ_euler";       % Euler method
+%integ_method = "integ_nystrom";     % Nystrom's method
 %integ_method = "integ_ab2";         % 2-step Adams - Bashforth method
 %integ_method = "integ_ab3";         % 3-step Adams - Bashforth method
 %integ_method = "integ_ab4";         % 4-step Adams - Bashforth method

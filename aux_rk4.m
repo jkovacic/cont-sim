@@ -26,10 +26,10 @@ function [output, S, H] = aux_rk4(model, initial_condition, t_start, upper_limit
 [STATE_ROWS, STATE_COLS] = size(initial_condition);
 
 % A buffer to store previous N-1 values of model(sn, tn), 
-% required by the Adams - Bashforth method
+% required by multi step methods
 H = zeros(STATE_ROWS, (N-1) * STATE_COLS);
 S = zeros(STATE_ROWS, N * STATE_COLS);
-% Note that some multi step methods (e.g. Milne - Simpson method) required
+% Note that some multi step methods (e.g. Milne - Simpson method) also require
 % history of states, which is packed into S
 
 % The first set of output values at t = t_start:
@@ -46,6 +46,9 @@ for  t = t_start : t_step : upper_limit
     % First shift the matrix to the right,...
     if (N > 2)
         H = circshift(H, [0, STATE_COLS]);
+    end %if
+    % Also shift the matrix S,  but update it later when s is actually calculated
+    if (N > 1)
         S = circshift(S, [0, STATE_COLS]);
     end %if
     
@@ -58,6 +61,7 @@ for  t = t_start : t_step : upper_limit
     k4 = feval(model, s+k3, t+t_step, param) * t_step;
 
     s = s + (k1 + 2*k2 + 2*k3 + k4) / 6;
+    % Now the left part of S can be overwritten:
     S(:, 1:STATE_COLS) = s;
     
     val = feval(outputf, s, t+t_step, param);
