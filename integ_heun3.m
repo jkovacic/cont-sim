@@ -1,5 +1,5 @@
-% Solve a set of ordinary differential equations using the 3rd order Runge - Kutta method. 
-% The method is described at:
+% Solve a set of ordinary differential equations using the 3rd order Heun method 
+% (similar to the 3rd order Runge - Kutta method). The method is described at:
 % http://de.wikipedia.org/wiki/Runge-Kutta-Verfahren#Beispiele
 %
 % Function's input and output paramaeters should conform to the general integ
