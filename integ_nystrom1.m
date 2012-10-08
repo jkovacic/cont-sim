@@ -1,5 +1,5 @@
 % Solve a set of ordinary differential equations using the
-% Nystroem method. The method is described at:
+% 1st order Nystroem method. The method is described at:
 % http://www-solar.mcs.st-and.ac.uk/~steveb/course/notes/set6_2.pdf
 %
 % As the method is not self starting, the first points are calculated by the 
@@ -21,7 +21,7 @@
 %   output - vector of output values (as defined by 'outputf'), prepended by time stamps
 
 
-function output = integ_nystrom(model, initial_condition, t_start, t_stop, t_step, outputf, param)
+function output = integ_nystrom1(model, initial_condition, t_start, t_stop, t_step, outputf, param)
 
 % Dimensions of a matrix of states. Even though it is recommended to be a vertical
 % vector (n x 1), the implementation is robust enough to handle other dimensions as well.
@@ -50,7 +50,7 @@ end %if
 s = S(:, 1:STATE_COLS);
 
 % Start of the Nystroem's method
-
+%S
 for t = upper_limit+t_step : t_step : t_stop-t_step
 
     sd = feval(model, s, t, param);
@@ -68,3 +68,4 @@ for t = upper_limit+t_step : t_step : t_stop-t_step
 end %for
 
 end %function
+ 

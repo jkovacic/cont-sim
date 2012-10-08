@@ -48,8 +48,14 @@ for i = 1:N
 end %for
 
 % Consistency of the Butcher tableau:
+% Note: due to limited accuracy of floating point arithmetics,
+% a less strict definition for "equality" is necessary for some methods, e.g. Ralston's or Verner's.
+crit = 7 * eps;
 for i = 1:N
-    if ( abs( sum(A(i, :)) - C(i) ) > eps )
+    % This might be useful to find an appropriate difference to define "equality"
+    % diff = sum(A(i, :)) - C(i);
+    % printf("diff: %f    crit: %f\n", diff/eps, crit/eps);
+    if ( abs( sum(A(i, :)) - C(i) ) > crit )
         error("Inconsistent Butcher tableau");
     end %if
 end %for
