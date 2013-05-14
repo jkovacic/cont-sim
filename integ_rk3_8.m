@@ -1,9 +1,6 @@
-% Solve a set of ordinary differential equations using the 2nd order Heun method 
-% (similar to the 2nd Runge - Kutta method, alpha=1)
+% Solve a set of ordinary differential equations using the Runge - Kutta 3/8 method.
 % The method is described at:
-% http://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods#Second-order_methods_with_two_stages
-% and
-% http://en.wikipedia.org/wiki/Heun%27s_method
+% http://www.mymathlib.com/diffeq/runge-kutta/runge_kutta_3_8.html
 %
 % Function's input and output paramaeters should conform to the general integ
 % "interface" as described at https://github.com/jkovacic/cont-sim/wiki/Basic-instructions.
@@ -20,10 +17,12 @@
 % Output:
 %   output - vector of output values (as defined by 'outputf'), prepended by time stamps
 
-function output = integ_heun2(model, initial_condition, t_start, t_stop, t_step, outputf, param)
+function output = integ_rk3_8(model, initial_condition, t_start, t_stop, t_step, outputf, param)
 
 % Elements of the Butcher tableau:
-[A, B, C] = aux_rk2_butcher(1);
+A = [0, 0, 0, 0; 0.5, 0, 0, 0; 0, 0.5, 0, 0; 0, 0, 1, 0];
+B = [0.125, 0.375, 0.375, 0.125];
+C = [0, 1, 2, 3]' / 3;
 
 % passed to the general implementation of explicit Runge - Kutta methods
 output = aux_rk_expl(model, initial_condition, t_start, t_stop, t_step, outputf, param, A, B, C);

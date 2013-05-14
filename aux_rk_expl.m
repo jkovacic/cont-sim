@@ -26,17 +26,17 @@ function output = aux_rk_expl(model, initial_condition, t_start, t_stop, t_step,
 % A must be a square matrix:
 [N, columns] = size(A);
 if ( N ~= columns )
-    error("A must be square matrix");
+    error('A must be square matrix');
 end %if
 
 % B should be a 1xN vector, however any matrix with N elemnts will do
 if ( numel(B) ~= N )
-    error("Invalid size of B");
+    error('Invalid size of B');
 end %if
 
 % C should be a Nx1 vector, however any matrix with N elemnts will do
 if ( numel(C) ~= N )
-    error("Invalid size of C");
+    error('Invalid size of C');
 end %if
 
 % Some elements of C and A should be 0.
@@ -48,15 +48,15 @@ for i = 1:N
 end %for
 
 % Consistency of the Butcher tableau:
-% Note: due to limited accuracy of floating point arithmetics,
-% a less strict definition for "equality" is necessary for some methods, e.g. Ralston's or Verner's.
+% Note, due to limited accuracy of floating point arithmetics,
+% a bit larger threshold for "equality" is necessary for some methods, e.g. Ralston's or Verner's.
 crit = 7 * eps;
 for i = 1:N
-    % This might be useful to find an appropriate difference to define "equality"
+    % This might be useful to determine the 
     % diff = sum(A(i, :)) - C(i);
     % printf("diff: %f    crit: %f\n", diff/eps, crit/eps);
     if ( abs( sum(A(i, :)) - C(i) ) > crit )
-        error("Inconsistent Butcher tableau");
+        error('Inconsistent Butcher tableau');
     end %if
 end %for
 
@@ -69,7 +69,7 @@ check_sim_params(t_start, t_stop, t_step);
 
 % Check validity of the vector/matrix of states and coefficients:
 if ( STATE_COLS <=0 )
-    error("Invalid dimensions of initial_condition.");
+    error('Invalid dimensions of initial_condition.');
 end %if
 
 % Matrix to store values of kn
@@ -95,7 +95,7 @@ for t = t_start : t_step : t_stop-t_step
         end %for
         
         % ki and its position in K:
-        K(:, ((i-1)*STATE_COLS+1) : (i*STATE_COLS) ) = \
+        K(:, ((i-1)*STATE_COLS+1) : (i*STATE_COLS) ) = ...
             t_step * feval(model, rktemp, t+C(i)*t_step, param);
             
         s = s + B(i) * K(:, ((i-1)*STATE_COLS+1) : (i*STATE_COLS) );

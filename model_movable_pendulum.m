@@ -36,12 +36,12 @@ function sd = model_movable_pendulum(s, t, param)
 N_STATES = 4;
 
 if ( N_STATES ~= numel(s) )
-    error("Invalid number of states, expected %d", N_STATES);
+    error('Invalid number of states, expected %d', N_STATES);
 end %if
 
 % The expected number of parameters is also 4, however in no relation to N_STATES
 if ( numel(param) < 4 )
-    error("Invalid number of model's parameters");
+    error('Invalid number of model''s parameters');
 end % if
 
 % Elements of params are assigned to variables with meaningful names.

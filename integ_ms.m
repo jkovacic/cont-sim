@@ -32,7 +32,7 @@ check_sim_params(t_start, t_stop, t_step);
 
 % Check validity of the vector/matrix of states and coefficients:
 if ( STATE_COLS <=0 )
-    error("Invalid dimensions of initial_condition.");
+    error('Invalid dimensions of initial_condition.');
 end %if
 
 upper_limit = t_start + 2 * t_step;
@@ -55,7 +55,7 @@ for t = upper_limit+t_step : t_step : t_stop-t_step
 
     % Predictor:
     sd = feval(model, s, t, param);
-    p = S(:, (3*STATE_COLS+1) : (4*STATE_COLS) ) + 4 * t_step * \
+    p = S(:, (3*STATE_COLS+1) : (4*STATE_COLS) ) + 4 * t_step * ...
         ( 2*H(:, (STATE_COLS+1) : (2*STATE_COLS) ) -H(:, 1:STATE_COLS ) + 2*sd ) / 3;
           
     % Corrector:

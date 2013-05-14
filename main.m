@@ -28,44 +28,44 @@ s0 = [0.3, 0, 30*pi/180, 0]';
 % Several ODE solving methods are implemented.
 % Uncomment the desired one:
 
-%integ_method = "integ_euler";       % Euler method
-%integ_method = "integ_nystrom1";    %  1st order Nystroem's method
-%integ_method = "integ_ab2";         % 2-step Adams - Bashforth method
-%integ_method = "integ_ab3";         % 3-step Adams - Bashforth method
-%integ_method = "integ_ab4";         % 4-step Adams - Bashforth method
-%integ_method = "integ_ab5";         % 5-step Adams - Bashforth method
-%integ_method = "integ_abm1";        % 1-step Adams - Bashforth - Moulton predictor - corrector method
-%integ_method = "integ_abm2";        % 2-step Adams - Bashforth - Moulton predictor - corrector method
-%integ_method = "integ_abm3";        % 3-step Adams - Bashforth - Moulton predictor - corrector method
-%integ_method = "integ_abm4";        % 4-step Adams - Bashforth - Moulton predictor - corrector method
-%integ_method = "integ_abm5";        % 5-step Adams - Bashforth - Moulton predictor - corrector method
-%integ_method = "integ_ms";          % Milne - Simpson predictor - corrector method
-%integ_method = "integ_ms_imp";      % improved Milne - Simpson predictor - corrector method
-%integ_method = "integ_hamming";     % Hamming's predictor - corrector method 
-%integ_method = "integ_hamming_imp"; % improved Hamming's predictor - corrector method 
-%integ_method = "integ_rk2";         % 2nd order Runge - Kutta method (alpha = 1/2, the midpoint method)
-%integ_method = "integ_heun2";       % 2nd order Heun method (i.e. 2nd order Runge - Kutta, where alpha=1)
-%integ_method = "integ_ralston2";    % 2nd order Ralston's method (i.e. 2nd order Runge - Kutta, where alpha=2/3)
-%integ_method = "integ_rk3";         % 3rd order Runge - Kutta method
-%integ_method = "integ_heun3";       % 3rd order Heun method
-integ_method = "integ_rk4";         % 4th order Runge - Kutta method
-%integ_method = "integ_rk_3_8";      % Runge - Kutta 3/8 method
-%integ_method = "integ_ralston4";    % 4th order Ralston's method
-%integ_method = "integ_gill4";       % 4th order Gill method
-%integ_method = "integ_nystrom5";    % 5th order Nystroem's method
-%integ_method = "integ_butcher6";    % 6th order Butcher's method
-%integ_method = "integ_verner8";      % 8th order Verner's method
+%integ_method = 'integ_euler';       % Euler method
+%integ_method = 'integ_nystrom1';    %  1st order Nystroem's method
+%integ_method = 'integ_ab2';         % 2-step Adams - Bashforth method
+%integ_method = 'integ_ab3';         % 3-step Adams - Bashforth method
+%integ_method = 'integ_ab4';         % 4-step Adams - Bashforth method
+%integ_method = 'integ_ab5';         % 5-step Adams - Bashforth method
+%integ_method = 'integ_abm1';        % 1-step Adams - Bashforth - Moulton predictor - corrector method
+%integ_method = 'integ_abm2';        % 2-step Adams - Bashforth - Moulton predictor - corrector method
+%integ_method = 'integ_abm3';        % 3-step Adams - Bashforth - Moulton predictor - corrector method
+%integ_method = 'integ_abm4';        % 4-step Adams - Bashforth - Moulton predictor - corrector method
+%integ_method = 'integ_abm5';        % 5-step Adams - Bashforth - Moulton predictor - corrector method
+%integ_method = 'integ_ms';          % Milne - Simpson predictor - corrector method
+%integ_method = 'integ_ms_imp';      % improved Milne - Simpson predictor - corrector method
+%integ_method = 'integ_hamming';     % Hamming's predictor - corrector method 
+%integ_method = 'integ_hamming_imp'; % improved Hamming's predictor - corrector method 
+%integ_method = 'integ_rk2';         % 2nd order Runge - Kutta method (alpha = 1/2, the midpoint method)
+%integ_method = 'integ_heun2';       % 2nd order Heun method (i.e. 2nd order Runge - Kutta, where alpha=1)
+%integ_method = 'integ_ralston2';    % 2nd order Ralston's method (i.e. 2nd order Runge - Kutta, where alpha=2/3)
+%integ_method = 'integ_rk3';         % 3rd order Runge - Kutta method
+%integ_method = 'integ_heun3';       % 3rd order Heun method
+integ_method = 'integ_rk4';         % 4th order Runge - Kutta method
+%integ_method = 'integ_rk_3_8';      % Runge - Kutta 3/8 method
+%integ_method = 'integ_ralston4';    % 4th order Ralston's method
+%integ_method = 'integ_gill4';       % 4th order Gill method
+%integ_method = 'integ_nystrom5';    % 5th order Nystroem's method
+%integ_method = 'integ_butcher6';    % 6th order Butcher's method
+%integ_method = 'integ_verner8';     % 8th order Verner's method
 
 % Run a simulation cycle t = 0 to 10 s, step = 0.01 s: 
-out = feval(integ_method, "model_movable_pendulum", s0, 0, 10, 0.01, "output_movable_pendulum", param);
+out = feval(integ_method, 'model_movable_pendulum', s0, 0, 10, 0.01, 'output_movable_pendulum', param);
 
 % Display the results in two plots, one for each output
 figure(1);
 plot(out(1,:), out(2,:));
-xlabel("time  (s)");
-ylabel("position  (cm)");
+xlabel('time  (s)');
+ylabel('position  (cm)');
 
 figure(2);
 plot(out(1,:), out(3,:));
-xlabel("time  (s)");
-ylabel("angle  (deg)");
+xlabel('time  (s)');
+ylabel('angle  (deg)');

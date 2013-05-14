@@ -30,11 +30,11 @@ check_sim_params(t_start, t_stop, t_step);
 
 % Check validity of the vector/matrix of states and coefficients:
 if ( STATE_COLS <=0 )
-    error("Invalid dimensions of initial_condition.");
+    error('Invalid dimensions of initial_condition.');
 end %if
 
 if ( N < 2 )
-    error("Only 2- or more- steps Adams - Bashforth methods are supported.");
+    error('Only 2- or more- steps Adams - Bashforth methods are supported.');
 end %if
 
 

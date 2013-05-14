@@ -11,23 +11,23 @@ function check_sim_params(t_start, t_stop, t_step)
 
 
 if ( numel(t_start) ~= 1 )
-    error ("Start time must be a scalar");
+    error ('Start time must be a scalar');
 end %if
 
 if ( numel(t_stop) ~= 1 )
-    error ("Stop time must be a scalar");
+    error ('Stop time must be a scalar');
 end %if
 
 if ( numel(t_step) ~= 1 )
-    error ("Time step must be a scalar");
+    error ('Time step must be a scalar');
 end %if
 
 if ( t_stop < t_start )
-    error ("Stop time must be greater than start time");
+    error ('Stop time must be greater than start time');
 end %if
 
 if ( t_step <= 0 )
-    error("t_step must bepositive");
+    error('t_step must be positive');
 end % if
 
 end %function

@@ -32,7 +32,7 @@ check_sim_params(t_start, t_stop, t_step);
 
 % Check validity of the vector/matrix of states and coefficients:
 if ( STATE_COLS <=0 )
-    error("Invalid dimensions of initial_condition.");
+    error('Invalid dimensions of initial_condition.');
 end %if
 
 upper_limit = t_start;

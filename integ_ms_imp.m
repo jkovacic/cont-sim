@@ -32,7 +32,7 @@ check_sim_params(t_start, t_stop, t_step);
 
 % Check validity of the vector/matrix of states and coefficients:
 if ( STATE_COLS <=0 )
-    error("Invalid dimensions of initial_condition.");
+    error('Invalid dimensions of initial_condition.');
 end %if
 
 % Unlike at the original Milne - Simpson method, the improved one requires one more
@@ -51,8 +51,8 @@ end %if
 [output, S, H] = aux_rk4(model, initial_condition, t_start, upper_limit, t_step, outputf, param, 5);
 s = S(:, 1:STATE_COLS);
 % precalculated predictor at the current pont:
-pk = S(:, (4*STATE_COLS+1) : (5*STATE_COLS) ) + 4 * t_step * \
-        ( 2*H(:, (2*STATE_COLS+1) : (3*STATE_COLS) ) - \
+pk = S(:, (4*STATE_COLS+1) : (5*STATE_COLS) ) + 4 * t_step * ...
+        ( 2*H(:, (2*STATE_COLS+1) : (3*STATE_COLS) ) - ...
         H(:, (STATE_COLS+1) : (2*STATE_COLS) ) + 2*H(:, 1:STATE_COLS)) / 3;
 
 % Start of the improved Milne - Simpson method
@@ -61,7 +61,7 @@ for t = upper_limit+t_step : t_step : t_stop-t_step
 
     % Predictor:
     sd = feval(model, s, t, param);
-    p = S(:, (3*STATE_COLS+1) : (4*STATE_COLS) ) + 4 * t_step * \
+    p = S(:, (3*STATE_COLS+1) : (4*STATE_COLS) ) + 4 * t_step * ...
         ( 2*H(:, (STATE_COLS+1) : (2*STATE_COLS) ) - H(:, 1:STATE_COLS ) + 2*sd ) / 3;
     % corrected prediction:
     m = p + 28 * (s - pk) / 29;

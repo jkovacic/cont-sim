@@ -32,7 +32,7 @@ check_sim_params(t_start, t_stop, t_step);
 
 % Check validity of the vector/matrix of states and coefficients:
 if ( STATE_COLS <=0 )
-    error("Invalid dimensions of initial_condition.");
+    error('Invalid dimensions of initial_condition.');
 end %if
 
 % Unlike at the original Milne - Simpson method, the improved one requires one more
@@ -51,8 +51,8 @@ end %if
 [output, S, H] = aux_rk4(model, initial_condition, t_start, upper_limit, t_step, outputf, param, 5);
 s = S(:, 1:STATE_COLS);
 % precalculated predictor at the current pont:
-pk = S(:, (4*STATE_COLS+1) : (5*STATE_COLS) ) + 4 * t_step * \
-        ( 2*H(:, (2*STATE_COLS+1) : (3*STATE_COLS) ) - \
+pk = S(:, (4*STATE_COLS+1) : (5*STATE_COLS) ) + 4 * t_step * ...
+        ( 2*H(:, (2*STATE_COLS+1) : (3*STATE_COLS) ) - ...
         H(:, (STATE_COLS+1) : (2*STATE_COLS) ) + 2*H(:, 1:STATE_COLS)) / 3;
 
 % Start of the improved Hamming's method
@@ -61,14 +61,14 @@ for t = upper_limit+t_step : t_step : t_stop-t_step
 
     % Predictor (the same as at the Milne - Simpson method):
     sd = feval(model, s, t, param);
-    p = S(:, (3*STATE_COLS+1) : (4*STATE_COLS) ) + 4 * t_step * \
+    p = S(:, (3*STATE_COLS+1) : (4*STATE_COLS) ) + 4 * t_step * ...
         ( 2*H(:, (STATE_COLS+1) : (2*STATE_COLS) ) - H(:, 1:STATE_COLS ) + 2*sd ) / 3;
     % corrected prediction:
     m = p + 112 * (s - pk) / 121;
           
     % Corrector (the same as at the Hamming's method, except that pd is replaced by md):
     md = feval(model, m, t+t_step, param);
-    s = ( 9 * s - S(:, (2*STATE_COLS+1) : (3*STATE_COLS) ) ) / 8 + \
+    s = ( 9 * s - S(:, (2*STATE_COLS+1) : (3*STATE_COLS) ) ) / 8 + ...
         3 * t_step * ( md + 2*sd - H(:, 1:STATE_COLS) ) / 8;
     
     % Shift the history matrices to the right,...

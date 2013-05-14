@@ -15,7 +15,7 @@
 function [A, B, C] = aux_rk2_butcher(alpha)
 
 if ( abs(alpha) <= eps )
-    error("Alpha cannot be zero!");
+    error('Alpha cannot be zero!');
 end %if
 
 A = zeros(2, 2);
