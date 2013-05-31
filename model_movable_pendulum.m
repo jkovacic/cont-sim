@@ -54,7 +54,9 @@ l = param(3);
 g = param(4);
 
 % For exactly the same reasons, values of states are assigned to variables with meaningful names: 
-x = s(1);        % [m]     - horizontal position of the pendulum support 
+
+% As 'x' itself is not used at the model, it is commented out:
+%x = s(1);        % [m]     - horizontal position of the pendulum support 
 xd = s(2);       % [m/s]   - dx/dt, horizontal speed of the pendulum support
 theta = s(3);    % [rad]   - inclination of the pendulum (relative to the vertical line)
 thetad = s(4);   % [rad/s] - dtheta/dt, rotational speed of the pendulum

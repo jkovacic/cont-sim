@@ -34,11 +34,18 @@ S = zeros(STATE_ROWS, N * STATE_COLS);
 
 % The first set of output values at t = t_start:
 initval = feval(outputf, initial_condition, t_start, param);
-output = [t_start; initval];
+
+% To improve efficiency, preallocate the buffer for output:
+[O_ROWS, IGNORED] = size(initval);
+output = aux_preallocate_output(O_ROWS+1, t_start, upper_limit+t_step, t_step);
+% Fill the 'output' with initial values
+output(:, 1) = [t_start; initval];
 
 s = initial_condition;
 S(:, 1:STATE_COLS) = s;
 
+% Current index within 'output'
+idx = 2;
 for  t = t_start : t_step : upper_limit
     % used by multistep methods as a "previous" point:
     sd = feval(model, s, t, param);
@@ -65,7 +72,9 @@ for  t = t_start : t_step : upper_limit
     S(:, 1:STATE_COLS) = s;
     
     val = feval(outputf, s, t+t_step, param);
-    output = [output, [t+t_step; val]];
+    output(:, idx) = [t+t_step; val];
+    % update 'idx'
+    idx = idx+1;
 end %for
 
 end %function

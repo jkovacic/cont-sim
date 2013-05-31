@@ -29,10 +29,17 @@ check_sim_params(t_start, t_stop, t_step);
 
 % The first set of output values at t = t_start:
 initval = feval(outputf, initial_condition, t_start, param);
-output = [t_start; initval];
+
+% To improve efficiency, preallocate the buffer for output:
+[OROWS, IGNORED] = size(initval);
+output = aux_preallocate_output(OROWS+1, t_start, t_stop, t_step);
+% Fill the 'output' with initial values
+output(:, 1) = [t_start; initval];
 
 s = initial_condition;
 
+% Current index within 'output'
+idx = 2;
 for t = t_start : t_step : t_stop-t_step,
 
     % 1-step Adams - Bashforth method (actually the Euler method) is used as a predictor:
@@ -46,8 +53,10 @@ for t = t_start : t_step : t_stop-t_step,
     % Past this point, s represents states at the next point in time, i.e. at t+t_step.
     % This should be kept in mind when calcualating output values and applyng their time stamp.
     val = feval(outputf, s, t+t_step, param);
-    output = [output, [t+t_step; val]];
+    output(:, idx) = [t+t_step; val];
     
+    % update 'idx'
+    idx = idx+1;
 end % for
 
 end % function 

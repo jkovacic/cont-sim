@@ -25,7 +25,7 @@ function output = integ_nystrom1(model, initial_condition, t_start, t_stop, t_st
 
 % Dimensions of a matrix of states. Even though it is recommended to be a vertical
 % vector (n x 1), the implementation is robust enough to handle other dimensions as well.
-[STATE_ROWS, STATE_COLS] = size(initial_condition);
+[IGNORED, STATE_COLS] = size(initial_condition);
 
 % Check some simulation parameters first
 check_sim_params(t_start, t_stop, t_step);
@@ -46,11 +46,19 @@ end %if
 
 % The method is not self-starting, so the initial values must be calculated
 % using another method. The 4th order Runge - Kutta mehod is chosen.
-[output, S, H] = aux_rk4(model, initial_condition, t_start, upper_limit, t_step, outputf, param, 2);
+% ~ was H
+[outrk4, S, IGNORED] = aux_rk4(model, initial_condition, t_start, upper_limit, t_step, outputf, param, 2);
 s = S(:, 1:STATE_COLS);
 
-% Start of the Nystroem's method
-%S
+% To improve efficiency, preallocate the buffer for output:
+[O_ROWS, idx] = size(outrk4);
+output = aux_preallocate_output(O_ROWS, t_start, t_stop, t_step);
+% Fill the 'output' with the initial value:
+output(:, 1:idx) = outrk4;
+
+% Start of the Nystroem's method:
+% Current index within 'output':
+idx = idx+1;
 for t = upper_limit+t_step : t_step : t_stop-t_step
 
     sd = feval(model, s, t, param);
@@ -64,7 +72,10 @@ for t = upper_limit+t_step : t_step : t_stop-t_step
     % Past this point, s represents states at the next point in time, i.e. at t+t_step.
     % This should be kept in mind when calcualating output values and applyng their time stamp.
     val = feval(outputf, s, t+t_step, param);
-    output = [output, [t+t_step; val]];
+    output(:, idx) = [t+t_step; val];
+    
+    % update 'idx'
+    idx = idx+1;
 end %for
 
 end %function
