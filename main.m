@@ -29,7 +29,7 @@ s0 = [0.3, 0, 30*pi/180, 0]';
 % Uncomment the desired one:
 
 %integ_method = 'integ_euler';       % Euler method
-%integ_method = 'integ_nystrom1';    %  1st order Nystroem's method
+%integ_method = 'integ_nystrom1';    % 1st order Nystroem's method
 %integ_method = 'integ_ab2';         % 2-step Adams - Bashforth method
 %integ_method = 'integ_ab3';         % 3-step Adams - Bashforth method
 %integ_method = 'integ_ab4';         % 4-step Adams - Bashforth method
@@ -57,7 +57,7 @@ integ_method = 'integ_rk4';         % 4th order Runge - Kutta method
 %integ_method = 'integ_verner8';     % 8th order Verner's method
 
 % Run a simulation cycle t = 0 to 10 s, step = 0.01 s: 
-out = feval(integ_method, 'model_movable_pendulum', s0, 0, 10, 0.01, 'output_movable_pendulum', param);
+out = feval(integ_method, 'model_deriv_movable_pendulum', s0, 0, 10, 0.01, 'model_output_movable_pendulum', param);
 
 % Display the results in two plots, one for each output
 figure(1);
