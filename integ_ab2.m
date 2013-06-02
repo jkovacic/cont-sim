@@ -14,6 +14,7 @@
 %   t_start - start time of the simulation run
 %   t_stop - stop time of the simulation run
 %   t_step - fixed time step
+%   inputf - name of the function that returns the external input at the specified time
 %   outputf - name of the function that calculates the desired output values from the internal states
 %   param - vector parameter values, passed to 'model' and 'outputf'
 %
@@ -21,11 +22,11 @@
 %   output - vector of output values (as defined by 'outputf'), prepended by time stamps
 
 
-function output = integ_ab2(model, initial_condition, t_start, t_stop, t_step, outputf, param)
+function output = integ_ab2(model, initial_condition, t_start, t_stop, t_step, inputf, outputf, param)
 
 % Coefficients for the 2-step Adams - Bashforth method:
 coef = [1.5, -0.5];
 
-output = aux_ab_general(model, initial_condition, t_start, t_stop, t_step, outputf, param, coef);
+output = aux_ab_general(model, initial_condition, t_start, t_stop, t_step, inputf, outputf, param, coef);
 
 end % function

@@ -8,6 +8,7 @@
 %
 % Input:
 %   s - vector of values of states at the specified moment in time
+%   u - external input at the sepecified moment in time (not used by this function)
 %   t - moment in time (not used by this function)
 %   param - values of model parameters (not used by this function)
 %
@@ -24,7 +25,7 @@
 % s(3) = theta [rad]    - inclination of the pendulum (relative to the vertical line)
 % s(4) = thetad [rad/s] - dtheta/dt, rotational speed of the pendulum
 
-function out = output_movable_pendulum(s, t, param)
+function out = model_output_movable_pendulum(s, u, t, param)
 
 
 % Vector of desired outputs ( a 2x1 vector):

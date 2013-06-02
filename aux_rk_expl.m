@@ -8,6 +8,7 @@
 %   t_start - start time of the simulation run
 %   t_stop - stop time of the simulation run
 %   t_step - fixed time step
+%   inputf - name of the function that returns the external input at the specified time
 %   outputf - name of the function that calculates the desired output values from the internal states
 %   param - vector parameter values, passed to 'model' and 'outputf'
 %   A - matrix A of the Butcher tableau (its diagonal and upper triangle will never be read)
@@ -20,7 +21,7 @@
 % More details about elements of a Butcher tableau can befound at:
 % http://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods#Explicit_Runge.E2.80.93Kutta_methods
 
-function output = aux_rk_expl(model, initial_condition, t_start, t_stop, t_step, outputf, param, A, B, C)
+function output = aux_rk_expl(model, initial_condition, t_start, t_stop, t_step, inputf, outputf, param, A, B, C)
 
 % Check validity of Butcher tableau elements:
 % A must be a square matrix:
@@ -52,7 +53,7 @@ end %for
 % a bit larger threshold for "equality" is necessary for some methods, e.g. Ralston's or Verner's.
 crit = 7 * eps;
 for i = 1:N
-    % This might be useful to determine the 
+    % This might be useful to determine the threshold
     % diff = sum(A(i, :)) - C(i);
     % printf("diff: %f    crit: %f\n", diff/eps, crit/eps);
     if ( abs( sum(A(i, :)) - C(i) ) > crit )
@@ -76,7 +77,8 @@ end %if
 K = zeros(STATE_ROWS, N*STATE_COLS);
 
 % The first set of output values at t = t_start:
-initval = feval(outputf, initial_condition, t_start, param);
+ut = feval(inputf, t_start);
+initval = feval(outputf, initial_condition, ut, t_start, param);
 %output = [t_start; initval];
 
 % To improve efficiency, preallocate the buffer for output:
@@ -104,15 +106,17 @@ for t = t_start : t_step : t_stop-t_step
         end %for
         
         % ki and its position in K:
+        ui = feval(inputf, t+C(i)*t_step);
         K(:, ((i-1)*STATE_COLS+1) : (i*STATE_COLS) ) = ...
-            t_step * feval(model, rktemp, t+C(i)*t_step, param);
+            t_step * feval(model, rktemp, ui, t+C(i)*t_step, param);
             
         s = s + B(i) * K(:, ((i-1)*STATE_COLS+1) : (i*STATE_COLS) );
     end %for
     
     % Past this point, s represents states at the next point in time, i.e. at t+t_step.
     % This should be kept in mind when calcualating output values and applyng their time stamp.
-    val = feval(outputf, s, t+t_step, param);
+    ut = feval(inputf, t+t_step);
+    val = feval(outputf, s, ut, t+t_step, param);
     output(:, idx) = [t+t_step; val];
     % update 'idx'
     idx = idx + 1;

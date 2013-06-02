@@ -11,6 +11,7 @@
 %   t_start - start time of the simulation run
 %   t_stop - stop time of the simulation run
 %   t_step - fixed time step
+%   inputf - name of the function that returns the external input at the specified time 
 %   outputf - name of the function that calculates the desired output values from the internal states
 %   param - vector parameter values, passed to 'model' and 'outputf'
 %
@@ -18,14 +19,15 @@
 %   output - vector of output values (as defined by 'outputf'), prepended by time stamps
 
 
-function output = integ_euler(model, initial_condition, t_start, t_stop, t_step, outputf, param)
+function output = integ_euler(model, initial_condition, t_start, t_stop, t_step, inputf, outputf, param)
 
 
 % Check some simulation parameters
 check_sim_params(t_start, t_stop, t_step);
 
 % The first set of output values at t = t_start:
-initval = feval(outputf, initial_condition, t_start, param);
+ut = feval(inputf, t_start);
+initval = feval(outputf, initial_condition, ut, t_start, param);
 
 % To improve efficiency, preallocate the buffer for output:
 [OROWS, IGNORED] = size(initval);
@@ -38,12 +40,13 @@ s = initial_condition;
 % Current index within 'output'
 idx = 2;
 for t = t_start : t_step : t_stop-t_step,
-    sd = feval(model, s, t, param);
+    sd = feval(model, s, ut, t, param);
     s = s + sd * t_step;
     
     % Past this point, s represents states at the next point in time, i.e. at t+t_step.
     % This should be kept in mind when calcualating output values and applyng their time stamp.
-    val = feval(outputf, s, t+t_step, param);
+    ut = feval(inputf, t+t_step);
+    val = feval(outputf, s, ut, t+t_step, param);
     output(:, idx) = [t+t_step; val];
     
     % update 'idx'

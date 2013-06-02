@@ -8,6 +8,7 @@
 %   t_start - start time of the simulation run
 %   t_stop - stop time of the simulation run
 %   t_step - fixed time step
+%   inputf - name of the function that returns the external input at the specified time
 %   outputf - name of the function that calculates the desired output values from the internal states
 %   param - vector parameter values, passed to 'model' and 'outputf'
 %   ab_coefficients - a vector of coefficients for the desired Adams - Bashforth predictor method
@@ -16,7 +17,7 @@
 % Output:
 %   output - vector of output values (as defined by 'outputf'), prepended by time stamps
 
-function output = aux_abm_general(model, initial_condition, t_start, t_stop, t_step, outputf, param, ab_coefficients, am_coefficients) 
+function output = aux_abm_general(model, initial_condition, t_start, t_stop, t_step, inputf, outputf, param, ab_coefficients, am_coefficients) 
 
 % number of steps of the Adams - Bashforth method:
 N = numel(ab_coefficients);
@@ -52,8 +53,8 @@ if (upper_limit > (t_stop-t_step) )
 end %if
 
 % The method is not self-starting, so the initial values must be calculated
-% using another method. The 4th order Runge - Kutta mehod is chosen.
-[outrk4, S, H] = aux_rk4(model, initial_condition, t_start, upper_limit, t_step, outputf, param, N);
+% using another method. The 4th order Runge - Kutta method is chosen.
+[outrk4, S, H] = aux_rk4(model, initial_condition, t_start, upper_limit, t_step, inputf, outputf, param, N);
 s = S(:, 1:STATE_COLS);
 
 % To improve efficiency, preallocate the buffer for output:
@@ -64,18 +65,21 @@ output(:, 1:idx) = outrk4;
 
 % Now the Adams - Bashforth method can start
 
+ut = feval(inputf, upper_limit+t_step);
+
 % Current index within 'output'
 idx = idx+1;
 for t = upper_limit+t_step : t_step : t_stop-t_step,
     % Predictor method:
-    sd = feval(model, s, t, param);
+    sd = feval(model, s, ut, t, param);
     p = s + t_step * sd * ab_coefficients(1);
     for i = 2:N
         p = p + t_step * ab_coefficients(i) * H(:, ((i-2)*STATE_COLS+1) : ((i-1)*STATE_COLS) );
     end %for
     
     % Adams - Moulton corrector method:
-    pd = feval(model, p, t+t_step, param);
+    ut = feval(inputf, t+t_step);
+    pd = feval(model, p, ut, t+t_step, param);
     s = s + t_step * pd * am_coefficients(1);
     if ( Nam >=2 )
         s = s + t_step * sd * am_coefficients(2);
@@ -93,7 +97,7 @@ for t = upper_limit+t_step : t_step : t_stop-t_step,
     
     % Past this point, s represents states at the next point in time, i.e. at t+t_step.
     % This should be kept in mind when calcualating output values and applyng their time stamp.
-    val = feval(outputf, s, t+t_step, param);
+    val = feval(outputf, s, ut, t+t_step, param);
     output(:, idx) = [t+t_step; val];
     
     % update 'idx'

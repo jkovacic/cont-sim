@@ -16,6 +16,7 @@
 %   t_start - start time of the simulation run
 %   t_stop - stop time of the simulation run
 %   t_step - fixed time step
+%   inputf - name of the function that returns the external input at the specified time
 %   outputf - name of the function that calculates the desired output values from the internal states
 %   param - vector parameter values, passed to 'model' and 'outputf'
 %
@@ -23,7 +24,7 @@
 %   output - vector of output values (as defined by 'outputf'), prepended by time stamps
 
 
-function output = integ_abm3(model, initial_condition, t_start, t_stop, t_step, outputf, param)
+function output = integ_abm3(model, initial_condition, t_start, t_stop, t_step, inputf, outputf, param)
 
 % Coefficients for the 3-step Adams - Bashforth method:
 ab_coef = [23, -16, 5] / 12;
@@ -31,6 +32,6 @@ ab_coef = [23, -16, 5] / 12;
 % Coefficients for the 4-step Adams - Moulton method:
 am_coef = [9, 19, -5, 1] / 24;
 
-output = aux_abm_general(model, initial_condition, t_start, t_stop, t_step, outputf, param, ab_coef, am_coef);
+output = aux_abm_general(model, initial_condition, t_start, t_stop, t_step, inputf, outputf, param, ab_coef, am_coef);
 
 end % function 

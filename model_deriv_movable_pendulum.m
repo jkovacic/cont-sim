@@ -7,6 +7,7 @@
 %
 % Input:
 %   s - vector of values of states at the specified moment in time
+%   u - external input at the sepecified moment in time (not used by this function)
 %   t - moment in time (not used by this function)
 %   param - values of model parameters
 %
@@ -29,7 +30,7 @@
 % s(4) = thetad [rad/s] - dtheta/dt, rotational speed of the pendulum
 
 
-function sd = model_movable_pendulum(s, t, param)
+function sd = model_deriv_movable_pendulum(s, u, t, param)
 
 
 % Required number of states to check the correctness of given 's':

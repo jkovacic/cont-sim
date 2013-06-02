@@ -57,7 +57,8 @@ integ_method = 'integ_rk4';         % 4th order Runge - Kutta method
 %integ_method = 'integ_verner8';     % 8th order Verner's method
 
 % Run a simulation cycle t = 0 to 10 s, step = 0.01 s: 
-out = feval(integ_method, 'model_deriv_movable_pendulum', s0, 0, 10, 0.01, 'model_output_movable_pendulum', param);
+out = feval(integ_method, 'model_deriv_movable_pendulum', s0, 0, 10, 0.01, ...
+            'input_nan', 'model_output_movable_pendulum', param);
 
 % Display the results in two plots, one for each output
 figure(1);
