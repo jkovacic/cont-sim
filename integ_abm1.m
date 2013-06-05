@@ -5,7 +5,7 @@
 % and
 % http://en.wikipedia.org/wiki/Linear_multistep_method#Adams.E2.80.93Moulton_methods
 %
-% Function's input and output paramaeters should conform to the general integ
+% Function's input and output parameters should conform to the general integ
 % "interface" as described at https://github.com/jkovacic/cont-sim/wiki/Basic-instructions.
 %
 % Input:
@@ -54,7 +54,7 @@ for t = t_start : t_step : t_stop-t_step,
     s = s + t_step * pd;
     
     % Past this point, s represents states at the next point in time, i.e. at t+t_step.
-    % This should be kept in mind when calcualating output values and applyng their time stamp.
+    % This should be kept in mind when calculating output values and applying their time stamp.
     val = feval(outputf, s, ut, t+t_step, param);
     output(:, idx) = [t+t_step; val];
     

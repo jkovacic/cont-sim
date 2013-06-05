@@ -5,7 +5,7 @@
 % As the method is not self starting, the first points are calculated by the 
 % 4th order Runge - Kutta method.
 %
-% Function's input and output paramaeters should conform to the general integ
+% Function's input and output parameters should conform to the general integ
 % "interface" as described at https://github.com/jkovacic/cont-sim/wiki/Basic-instructions.
 %
 % Input:
@@ -46,8 +46,7 @@ if (upper_limit > (t_stop-t_step) )
 end %if
 
 % The method is not self-starting, so the initial values must be calculated
-% using another method. The 4th order Runge - Kutta mehod is chosen.
-% ~ was H
+% using another method. The 4th order Runge - Kutta method is chosen.
 [outrk4, S, IGNORED] = aux_rk4(model, initial_condition, t_start, upper_limit, t_step, inputf, outputf, param, 2);
 s = S(:, 1:STATE_COLS);
 
@@ -74,7 +73,7 @@ for t = upper_limit+t_step : t_step : t_stop-t_step
     S(:, 1:STATE_COLS) = s;
     
     % Past this point, s represents states at the next point in time, i.e. at t+t_step.
-    % This should be kept in mind when calcualating output values and applyng their time stamp.
+    % This should be kept in mind when calculating output values and applying their time stamp.
     ut = feval(inputf, t+t_step);
     val = feval(outputf, s, ut, t+t_step, param);
     output(:, idx) = [t+t_step; val];

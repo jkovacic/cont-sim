@@ -2,7 +2,7 @@
 % The method is described at:
 % http://www.mymathlib.com/c_source/diffeq/runge_kutta/runge_kutta_verner.c
 %
-% Function's input and output paramaeters should conform to the general integ
+% Function's input and output parameters should conform to the general integ
 % "interface" as described at https://github.com/jkovacic/cont-sim/wiki/Basic-instructions.
 %
 % Input:

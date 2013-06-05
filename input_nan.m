@@ -11,7 +11,7 @@
 %   t - moment in time (not used by this function)
 %
 % Output:
-%   out -functions value at the moment of 't' (NaN in this function)
+%   out - functions value at the moment of 't' (NaN in this function)
 
 function out = input_nan(t)
     out = NaN;

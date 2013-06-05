@@ -2,7 +2,7 @@
 % The method is described at:
 % http://en.wikipedia.org/wiki/List_of_Runge%E2%80%93Kutta_methods#Kutta.27s_third-order_method
 %
-% Function's input and output paramaeters should conform to the general integ
+% Function's input and output parameters should conform to the general integ
 % "interface" as described at https://github.com/jkovacic/cont-sim/wiki/Basic-instructions.
 %
 % Input:

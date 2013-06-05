@@ -79,7 +79,6 @@ K = zeros(STATE_ROWS, N*STATE_COLS);
 % The first set of output values at t = t_start:
 ut = feval(inputf, t_start);
 initval = feval(outputf, initial_condition, ut, t_start, param);
-%output = [t_start; initval];
 
 % To improve efficiency, preallocate the buffer for output:
 [NOUT, IGNORED] = size(initval);
@@ -96,7 +95,7 @@ idx = 2;
 for t = t_start : t_step : t_stop-t_step
     % The current value of s is used several times inside the for i loop.
     % However, to eleminiate the need for another foor loop (after for i),
-    % s can be updated inside the same for loop. As this would break the algorithm
+    % s can be updated inside the same for-loop. As this would break the algorithm
     % for calculation of kn, stemp was introduced.
     stemp = s;
     for i = 1:N
@@ -114,7 +113,7 @@ for t = t_start : t_step : t_stop-t_step
     end %for
     
     % Past this point, s represents states at the next point in time, i.e. at t+t_step.
-    % This should be kept in mind when calcualating output values and applyng their time stamp.
+    % This should be kept in mind when calculating output values and applying their time stamp.
     ut = feval(inputf, t+t_step);
     val = feval(outputf, s, ut, t+t_step, param);
     output(:, idx) = [t+t_step; val];

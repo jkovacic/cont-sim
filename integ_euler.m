@@ -2,7 +2,7 @@
 % numerical method, i.e. the Euler method. The method is described at:
 % http://en.wikipedia.org/wiki/Euler_method
 %
-% Function's input and output paramaeters should conform to the general integ
+% Function's input and output parameters should conform to the general integ
 % "interface" as described at https://github.com/jkovacic/cont-sim/wiki/Basic-instructions.
 %
 % Input:
@@ -44,7 +44,7 @@ for t = t_start : t_step : t_stop-t_step,
     s = s + sd * t_step;
     
     % Past this point, s represents states at the next point in time, i.e. at t+t_step.
-    % This should be kept in mind when calcualating output values and applyng their time stamp.
+    % This should be kept in mind when calculating output values and applying their time stamp.
     ut = feval(inputf, t+t_step);
     val = feval(outputf, s, ut, t+t_step, param);
     output(:, idx) = [t+t_step; val];

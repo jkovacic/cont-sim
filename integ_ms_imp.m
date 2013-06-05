@@ -5,7 +5,7 @@
 % As the method is not self starting, the first points are calculated by the 
 % 4th order Runge - Kutta method.
 %
-% Function's input and output paramaeters should conform to the general integ
+% Function's input and output parameters should conform to the general integ
 % "interface" as described at https://github.com/jkovacic/cont-sim/wiki/Basic-instructions.
 %
 % Input:
@@ -93,7 +93,7 @@ for t = upper_limit+t_step : t_step : t_stop-t_step
     pk = p;
     
     % Past this point, s represents states at the next point in time, i.e. at t+t_step.
-    % This should be kept in mind when calcualating output values and applyng their time stamp.
+    % This should be kept in mind when calculating output values and applying their time stamp.
     val = feval(outputf, s, ut, t+t_step, param);
     output(:, idx) = [t+t_step; val];
     

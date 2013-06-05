@@ -5,7 +5,7 @@
 % The function should not be called directly
 
 % Input:
-%   alpha - parameter of a 2nd order Runge - Kutta methods
+%   alpha - parameter of a 2nd order Runge - Kutta method
 %
 % Output:
 %   A - matrix A of the Butcher tableau
