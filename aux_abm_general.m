@@ -1,5 +1,5 @@
 % A general function to solve a set of ordinary differential equations using
-% one of Adams - Bashforth methods.
+% one of Adams - Bashforth - Moulton methods.
 % This function should only be called from integ_abm?.m
 
 % Input:

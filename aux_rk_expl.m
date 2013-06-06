@@ -94,7 +94,7 @@ s = initial_condition;
 idx = 2;
 for t = t_start : t_step : t_stop-t_step
     % The current value of s is used several times inside the for i loop.
-    % However, to eleminiate the need for another foor loop (after for i),
+    % However, to eleminate the need for another foor loop (after for i),
     % s can be updated inside the same for-loop. As this would break the algorithm
     % for calculation of kn, stemp was introduced.
     stemp = s;

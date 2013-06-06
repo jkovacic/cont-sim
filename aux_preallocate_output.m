@@ -2,7 +2,7 @@
 % The function should be called internally only.
 
 % Input:
-% rows - number of output's rows
+%   rows - number of output's rows
 %   t_start - start time of the simulation run
 %   t_stop - stop time of the simulation run
 %   t_step - fixed time step  
