@@ -1,6 +1,9 @@
-A very simple MATLAB/GNU Octave "toolbox" for numerical continuous simulation.
-The library was developed in GNU Octave, however every effort was made to
-preserve compatibility with MATLAB.
+A Matlab and GNU Octave library for numerical continuous simulation.
+
+Two implementations with exactly the same functionality are currently available, 
+each one in a separate directory:
+- octave: procedural implementation, tested on Matlab (incl. older versions) and GNU Octave
+- matlab: object oriented implementation, designed exclusively for newer versions of Matlab
 
 Several integration numerical methods are included. For the complete list, see the wiki:
 https://github.com/jkovacic/cont-sim/wiki/Implemented-methods
@@ -8,13 +11,15 @@ More numerical methods may be included in the future.
 
 Additionally an example mathematical model of a pendulum on a movable support (defined at
 http://en.wikipedia.org/wiki/Lagrangian_mechanics#Pendulum_on_a_movable_support)
-is included, it is implemented in model_movable_output.m and output_movable_pendulum.m.
+is included, it is implemented in model_deriv_movable_output.m and 
+model_output_movable_pendulum.m (procedural implementation) and MovablePendulum.m
+(object oriented implementation).
 
 For more information, see the project's wiki (https://github.com/jkovacic/cont-sim/wiki), 
-the demo script main.m and comments in individual files.
+demo scripts main.m in both directories and extensive comments in individual files.
 
 The library is licenced under the Apache 2.0 license. See LICENSE.txt and
 http://www.apache.org/licenses/LICENSE-2.0
 for more details.
 
-The author of the library is Jernej Kovacic (jkovacic AT gmail DOT com). 
+The author of the library is Jernej Kovacic (jkovacic@gmail.com). 
